@@ -6,7 +6,7 @@ import Header from '../components/Header'
 import Grid from '../components/Grid'
 import './index.css'
 import './style.css'
-import 'grill/lib/grill.css';
+import 'grille/lib/grill.css';
 
 const TemplateWrapper = ({ children }) => (
   <div>

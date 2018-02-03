@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import Cell from 'grill'
+import Cell from 'grille'
 
 const Header = () => (
   <Cell span={16} className='demo-header rect'>

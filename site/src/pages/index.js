@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import Cell from 'grill'
+import Cell from 'grille'
 import Grid from '../components/Grid'
 
 const Lipsum = ({ title }) => (

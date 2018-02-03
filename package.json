@@ -1,13 +1,13 @@
 {
-  "name": "grill",
+  "name": "grille",
   "version": "0.0.1",
   "description": "A flexible Grid (React Component)",
-  "main": "lib/grill.js",
+  "main": "lib/grille.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "build": "cp src/style.less lib/grill.less && lessc src/style.less > lib/grill.css && cp lib/grill.css lib/grill.module.css && babel src/index.js --out-file lib/grill.js",
+    "build": "cp src/style.less lib/grille.less && lessc src/style.less > lib/grille.css && cp lib/grille.css lib/grille.module.css && babel src/index.js --out-file lib/grille.js",
     "build-dev": "NODE_ENV=development npm run build",
     "build-prod": "NODE_ENV=production npm run build"
   },

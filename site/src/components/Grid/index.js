@@ -1,5 +1,5 @@
 import React from 'react'
-import Cell from 'grill'
+import Cell from 'grille'
 
 const generate = n => {
   let x = [];
