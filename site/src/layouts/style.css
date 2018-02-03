@@ -1,0 +1,65 @@
+.rect {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  border: 1px silver solid;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  text-align: justify;
+}
+
+* {
+  font-family: arial;
+  color: lightslategrey;
+}
+
+html {
+  background: whitesmoke;
+}
+
+.demo-header {
+  color: lightslategrey;
+  background: white;
+  border-bottom: 1px silver solid;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+header {
+  padding: 40px 0px;
+  font-weight: normal;
+  font-family: arial;
+}
+
+header h1 {
+  display: inline-block;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  color: lightslategrey;
+}
+
+header a {
+  display: inline-block;
+  color: lightslategrey;
+}
+
+.grid-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: whitesmoke;
+  border: 1px whitesmoke solid;
+  min-height: 50px;
+}
+
+.global-grid {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: stretch;
+  z-index: -1;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "grill",
+  "version": "0.0.0",
+  "description": "A flexible Grid (React Component)",
+  "main": "lib/grill.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "cp src/style.less lib/grill.less && lessc src/style.less > lib/grill.css && cp lib/grill.css lib/grill.module.css && babel src/index.js --out-file lib/grill.js",
+    "build-dev": "NODE_ENV=development npm run build",
+    "build-prod": "NODE_ENV=production npm run build"
+  },
+  "author": "GnsP (sir.gnsp@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "babel-preset-react-app": "^3.1.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "less": "^2.7.3"
+  }
+}

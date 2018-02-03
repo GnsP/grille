@@ -1,0 +1,144 @@
+@gutter-width: 10px;
+@max-grid-cells: 16;
+@allow-nesting-level: 1;
+
+.gcd(@a, @b, @c) when (@c = 0) {
+  @gcd-res: @b;
+}
+
+.gcd(@a, @b, @c) when not(@c = 0) {
+  .gcd(@b, mod(@a, @b))
+}
+
+.gcd(@a, @b) {
+  @c: mod(@a, @b);
+  .gcd(@a, @b, @c);
+}
+
+.cell {
+  position: relative;
+  height: auto;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  & > :not(.cell) {
+    width: 100%;
+    margin: (@gutter-width / 2);
+  }
+}
+
+.make-row(@cells) {
+  .cell-d-@{cells}, .cell-n-@{cells}, .cell-o-@{cells} {
+    &:extend(.cell);
+  }
+  .make-cells(@cells);
+}
+
+.make-grid(@max-cells) when (@max-cells < (@max-grid-cells+1)) {
+  .make-row(@max-cells);
+  .make-grid((@max-cells + 1));
+}
+
+
+.make-grid(@max-cells) {}
+
+.make-grid(1);
+
+.width-ratio(@n, @d, @g) when (@g = 1) {
+  @parent-selector: ~".cell-d-@{d}";
+  @child-selector: ~".cell-n-@{n}";
+
+  .nest(@index, @factor, @val, @acc, @offset-acc, @upperbound) when (@index = 0) and (@factor = 1) and (@upperbound =< @max-grid-cells) {
+    @d-prime: (@d * @factor);
+    @n-prime: (@n * @factor);
+
+    @parent-selector: ~".cell-d-@{d-prime}";
+    @child-selector: ~".cell-n-@{n-prime}";
+    @offset-selector: ~".cell-o-@{n-prime}";
+
+    @sel: ~"@{parent-selector}";
+
+    @newacc: ~"@{sel}>@{child-selector}";
+    @new-offset-acc: ~"@{sel}>@{offset-selector}";
+
+    .nest(( @index + 1 ),  @factor, @sel, @newacc, @new-offset-acc, @d-prime);
+  }
+
+  .nest(@index, @factor, @val, @acc, @offset-acc, @upperbound) when (@index = 0) and not(@factor = 1) and (@upperbound =< @max-grid-cells) {
+    @d-prime: (@d * @factor);
+    @n-prime: (@n * @factor);
+
+    @parent-selector: ~".cell-d-@{d-prime}";
+    @child-selector: ~".cell-n-@{n-prime}";
+    @offset-selector: ~".cell-o-@{n-prime}";
+
+    @sel: ~"@{parent-selector}";
+
+    @newacc: ~"@{acc}, @{sel}>@{child-selector}";
+    @new-offset-acc: ~"@{offset-acc}, @{sel}>@{offset-selector}";
+
+    .nest(( @index + 1 ),  @factor, @sel, @newacc, @new-offset-acc, @d-prime);
+  }
+
+  .nest(@index, @factor, @val, @acc, @offset-acc, @upperbound) when (@index > 0) and (@index < @allow-nesting-level) and (@upperbound =< @max-grid-cells) {
+    @n-prime: (@n * @factor);
+
+    @child-selector: ~".cell-n-@{n-prime}";
+    @offset-selector: ~".cell-o-@{n-prime}";
+
+    @sel: ~"@{val}>:not(.cell)";
+
+    @newacc: ~"@{acc}, @{sel}>@{child-selector}";
+    @new-offset-acc: ~"@{offset-acc}, @{sel}>@{offset-selector}";
+
+    .nest(( @index + 1), @factor, @sel, @newacc, @new-offset-acc, @d-prime);
+  }
+
+  .nest (@index, @factor, @val, @acc, @offset-acc, @upperbound) when (@index = @allow-nesting-level) and (@upperbound =< @max-grid-cells) {
+    @newfactor: (@factor + 1);
+    @d-prime: (@d * @newfactor);
+
+    .nest(0, @newfactor, @val, @acc, @offset-acc, @d-prime);
+  }
+
+  .nest (@index, @factor, @val, @acc, @offset-acc, @upperbound) when (@upperbound > @max-grid-cells) {
+    @{acc} {
+      width: percentage((@n/@d));
+    }
+
+    @{offset-acc} {
+      margin-left: percentage((@n/@d));
+    }
+  }
+
+  .nest(0, 1, ~"", ~"", ~"", @d);
+
+}
+
+
+.ratio(@num, @denum) {
+  .gcd(@num, @denum);
+  .width-ratio(@num, @denum, @gcd-res);
+}
+
+.make-cells(@cells) {
+  .cell(@index) {
+    @item: ~".cell-@{index}-@{cells}";
+    .ratio(@index, @cells);
+    .cell((@index + 1), @item);
+  }
+
+  .cell(@index, @list) when (@index =< @cells) {
+    @item: ~".cell-@{index}-@{cells}";
+    .ratio(@index, @cells);
+    .cell((@index + 1), ~"@{list}, @{item}");
+  }
+
+  .cell(1);
+}
+
